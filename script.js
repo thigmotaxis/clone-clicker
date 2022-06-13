@@ -1,0 +1,6 @@
+const body = document.querySelector("body")
+const cookie = document.createElement("img")
+cookie.setAttribute("src", "images/cookie.png")
+cookie.setAttribute("alt", "A large cookie. Maybe you should click it?")
+cookie.classList.add("bigCookie")
+body.appendChild(cookie)
