@@ -53,9 +53,21 @@ table {
 
 body {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 2fr 3fr 2fr;
   color: white;
 }
+
+.header1 {
+  font-size: 2rem;
+  border-bottom: white solid 2px;
+}
+
+.header2 {
+  font-size: 1.5rem;
+  border-bottom: white solid 1px;
+}
+
+/* begin cookie panel styles */
 
 .cookiePanel {
   display: grid;
@@ -68,19 +80,36 @@ body {
 .bigCookie {
   width: 250px;
 }
+
+/* end cookie panel styles */
+
+/* begin stats panel styles */
+
 .statsPanel {
   background-color: black;
 
-}
-.header1 {
-  font-size: 2rem;
-}
-
-.header2 {
-  font-size: 1.5rem;
-  border-bottom: white solid 1px;
 }
 
 .stat {
   font-size: 1rem;
 }
+
+/* end stats panel styles */
+
+/* begin store panel styles */
+
+.storePanel {
+  background-color: purple;
+}
+
+.upgradeContainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr)
+}
+
+.building {
+  height: 60px;
+  border: solid white 1px;
+}
+
+/* end store panel styles */

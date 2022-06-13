@@ -2,7 +2,11 @@ let cookieCount = 0;
 
 const htmlGenerator = (() => {
   const body = document.querySelector("body")
-  // generate cookie panel
+
+
+
+// GENERATE COOKIE PANEL
+
   const cookiePanel = () => {
     const cookiePanelContainer = document.createElement("div")
     cookiePanelContainer.classList.add("cookiePanel")
@@ -24,7 +28,11 @@ const htmlGenerator = (() => {
     cookie.classList.add("bigCookie")
     cookiePanelContainer.appendChild(cookie)
   }
-  // generate stats panel
+
+
+
+// GENERATE STATS PANEL
+
   const statsPanel = () => {
     const statsPanelContainer = document.createElement("div")
     statsPanelContainer.classList.add("statsPanel")
@@ -67,8 +75,78 @@ const htmlGenerator = (() => {
   }
 
 
-  return {cookiePanel, statsPanel}
-})()
 
-htmlGenerator.cookiePanel()
-htmlGenerator.statsPanel()
+// GENERATE STORE PANEL
+
+  const storePanel = () => {
+    const storePanelContainer = document.createElement("div")
+    storePanelContainer.classList.add("storePanel")
+    body.appendChild(storePanelContainer)
+
+    const storeHeader = document.createElement("div")
+    storeHeader.classList.add("header1")
+    storeHeader.textContent = "Store"
+    storePanelContainer.appendChild(storeHeader)
+
+    const upgradeContainer = document.createElement("div")
+    upgradeContainer.classList.add("upgradeContainer")
+    storePanelContainer.appendChild(upgradeContainer)
+
+    const upgrades = ["DU1", "DU2", "DU3", "DU4", "DU5"]
+
+    for(let i = 0; i < upgrades.length; i++) {
+      let upgrade = document.createElement("div")
+      upgrade.setAttribute("id", upgrades[i])
+      upgrade.classList.add("upgrade")
+      upgrade.textContent = upgrades[i]
+      upgradeContainer.appendChild(upgrade)
+    }
+
+    const buy = document.createElement("div")
+    buy.textContent = "Buy"
+    storePanelContainer.appendChild(buy)
+
+    const sell = document.createElement("div")
+    sell.textContent = "Sell"
+    storePanelContainer.appendChild(sell)
+
+    const buildings = ["cursor", "grandma", "farm", "mine", "factory"]
+
+    for(let i = 0; i < buildings.length; i++) {
+      let building = document.createElement("div")
+      building.setAttribute("id", buildings[i])
+      building.classList.add("building")
+      building.textContent = `${buildings[i].slice(0, 1).toUpperCase() + buildings[i].slice(1)}`
+      storePanelContainer.appendChild(building)
+    }
+
+  }
+
+  return {cookiePanel, statsPanel, storePanel}
+})();
+
+// CALLS PANEL CREATION METHODS TO CREATE HTML CONTENT
+
+(function generateContent() {
+
+  htmlGenerator.cookiePanel()
+  htmlGenerator.statsPanel()
+  htmlGenerator.storePanel()
+})();
+
+// logic to update stats
+const test = 0
+const bank = document.querySelector(".currentCookies")
+bank.textContent += test;
+
+
+// cookie.addEventListener("click", () => {
+//   let unoMas = incrementCookie(cookieCount)
+//   cookieCount = parseInt(unoMas)
+// })
+//
+// function incrementCookie(cookies) {
+//   cookies ++
+//   currentBank.textContent = cookies
+//   return cookies
+// }
