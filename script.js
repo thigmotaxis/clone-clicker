@@ -2,6 +2,7 @@ let cookieCount = 0;
 
 const htmlGenerator = (() => {
   const body = document.querySelector("body")
+  // generate cookie panel
   const cookiePanel = () => {
     const cookiePanelContainer = document.createElement("div")
     cookiePanelContainer.classList.add("cookiePanel")
@@ -23,22 +24,51 @@ const htmlGenerator = (() => {
     cookie.classList.add("bigCookie")
     cookiePanelContainer.appendChild(cookie)
   }
+  // generate stats panel
+  const statsPanel = () => {
+    const statsPanelContainer = document.createElement("div")
+    statsPanelContainer.classList.add("statsPanel")
+    body.appendChild(statsPanelContainer)
 
-  return {cookiePanel}
+    const statistics = document.createElement("div")
+    statistics.classList.add("header1")
+    statistics.textContent = "Statistics"
+    statsPanelContainer.appendChild(statistics)
+
+    const general = document.createElement("div")
+    general.setAttribute("id", "general")
+    general.classList.add("header2")
+    general.textContent = "General"
+    statsPanelContainer.appendChild(general)
+
+    const statsArray = ["Current Cookies", "Cookies Baked", "Run Started", "Buildings Owned", "Cookies Per Second", "Cookies Per Click",
+                        "Cookie Clicks", "Handmade Cookies"]
+
+    for(let i = 0; i < statsArray.length; i++) {
+      let stat = document.createElement("div")
+      stat.classList.add("stat")
+      stat.textContent = `${statsArray[i]}: `
+      // line 41 sets appropriate camelCase ids on stat divs
+      stat.classList.add(statsArray[i].slice(0, 1).toLowerCase() + statsArray[i].slice(1).replace(/\s+/g, ""))
+      statsPanelContainer.appendChild(stat)
+    }
+
+    const upgrades = document.createElement("div")
+    upgrades.setAttribute("id", "upgrades")
+    upgrades.classList.add("header2")
+    upgrades.textContent = "Upgrades"
+    statsPanelContainer.appendChild(upgrades)
+
+    const achievements = document.createElement("div")
+    achievements.classList.add("header2")
+    achievements.setAttribute("id", "achievements")
+    achievements.textContent = "Achievements"
+    statsPanelContainer.appendChild(achievements)
+  }
+
+
+  return {cookiePanel, statsPanel}
 })()
 
 htmlGenerator.cookiePanel()
-
-
-
-
-// cookie.addEventListener("click", () => {
-//   let unoMas = incrementCookie(cookieCount)
-//   cookieCount = parseInt(unoMas)
-// })
-//
-// function incrementCookie(cookies) {
-//   cookies ++
-//   currentBank.textContent = cookies
-//   return cookies
-// }
+htmlGenerator.statsPanel()

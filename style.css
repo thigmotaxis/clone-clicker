@@ -53,15 +53,34 @@ table {
 
 body {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: white;
 }
 
 .cookiePanel {
   display: grid;
   grid-template-rows: 1fr 1fr 20fr;
-  place-items: end start;
-  height: 100vh
+  place-items: center;
+  height: 100vh;
+  background-color: orange;
 }
 
 .bigCookie {
-  width: 150px;
+  width: 250px;
+}
+.statsPanel {
+  background-color: black;
+
+}
+.header1 {
+  font-size: 2rem;
+}
+
+.header2 {
+  font-size: 1.5rem;
+  border-bottom: white solid 1px;
+}
+
+.stat {
+  font-size: 1rem;
 }
