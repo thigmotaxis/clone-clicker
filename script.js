@@ -1,4 +1,4 @@
-let cookieCount = 0;
+let cookieBank = 0
 
 const htmlGenerator = (() => {
   const body = document.querySelector("body")
@@ -19,7 +19,7 @@ const htmlGenerator = (() => {
 
     const currentBank = document.createElement("div")
     currentBank.classList.add("currentBank")
-    currentBank.textContent = cookieCount
+    currentBank.textContent = cookieBank
     cookiePanelContainer.appendChild(currentBank)
 
     const cookie = document.createElement("img")
@@ -134,19 +134,13 @@ const htmlGenerator = (() => {
   htmlGenerator.storePanel()
 })();
 
-// logic to update stats
-const test = 0
-const bank = document.querySelector(".currentCookies")
-bank.textContent += test;
+// COOKIE CLICK LOGIC
+// adds event listener to big cookie, increments currentBank
 
-
-// cookie.addEventListener("click", () => {
-//   let unoMas = incrementCookie(cookieCount)
-//   cookieCount = parseInt(unoMas)
-// })
-//
-// function incrementCookie(cookies) {
-//   cookies ++
-//   currentBank.textContent = cookies
-//   return cookies
-// }
+(function makeEventListeners() {
+  const bigCookie = document.querySelector(".bigCookie")
+  const cookieBank = document.querySelector(".currentBank")
+  bigCookie.addEventListener("click", () => {
+    cookieBank.textContent ++
+  })
+})()
