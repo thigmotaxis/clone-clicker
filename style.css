@@ -54,6 +54,8 @@ table {
 body {
   display: grid;
   grid-template-columns: 2fr 3fr 2fr;
+  grid-template-areas:
+  "cookiePanel statsPanel storePanel";
   color: white;
 }
 
@@ -70,6 +72,7 @@ body {
 /* begin cookie panel styles */
 
 .cookiePanel {
+  grid-area: cookiePanel;
   display: grid;
   grid-template-rows: 1fr 1fr 20fr;
   place-items: center;
@@ -86,6 +89,7 @@ body {
 /* begin stats panel styles */
 
 .statsPanel {
+  grid-area: statsPanel;
   background-color: black;
 
 }
@@ -99,6 +103,7 @@ body {
 /* begin store panel styles */
 
 .storePanel {
+  grid-area: storePanel;
   background-color: purple;
 }
 
@@ -107,7 +112,7 @@ body {
   grid-template-columns: repeat(5, 1fr)
 }
 
-.building {
+.buildingContainer {
   height: 60px;
   border: solid white 1px;
 }

@@ -113,18 +113,23 @@ const htmlGenerator = (() => {
     const buildings = ["cursor", "grandma", "farm", "mine", "factory"]
 
     for(let i = 0; i < buildings.length; i++) {
+      let buildingContainer = document.createElement("div")
+      buildingContainer.setAttribute("id", `${buildings[i]}Container`)
+      buildingContainer.classList.add("buildingContainer")
+      storePanelContainer.appendChild(buildingContainer)
+// adds initial cost for each building - may be subbed out for building objects (or it might be ok to generate everything here except the text content
+// which I could then modify with individual building objects)
       let building = document.createElement("div")
       building.setAttribute("id", buildings[i])
       building.classList.add("building")
       building.textContent = `${buildings[i].slice(0, 1).toUpperCase() + buildings[i].slice(1)}`
-      storePanelContainer.appendChild(building)
-// adds initial cost for each building - may be subbed out for building objects (or it might be ok to generate everything here except the text content
-// which I could then modify with individual building objects)
+      buildingContainer.appendChild(building)
+
       let price = document.createElement("div")
       price.setAttribute("id", `${buildings[i]}Price`)
       price.classList.add("price")
-      price.textContent = `${(i + 1)**3*15}`
-      building.appendChild(price)
+      price.textContent = `${(i + 1)**4*15}`
+      buildingContainer.appendChild(price)
     }
 
   }
