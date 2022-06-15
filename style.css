@@ -115,6 +115,26 @@ body {
 .buildingContainer {
   height: 60px;
   border: solid white 1px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 2fr 1fr;
+  grid-template-areas:
+  "building count"
+  "price count";
+  place-items: center;
+}
+
+.building {
+  font-size: 1.2rem;
+  grid-area: building;
+}
+
+.price {
+  grid-area: price;
+}
+
+.buildingCount {
+  grid-area: count;
 }
 
 /* end store panel styles */

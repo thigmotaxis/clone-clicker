@@ -125,6 +125,12 @@ const htmlGenerator = (() => {
       building.textContent = `${buildings[i].slice(0, 1).toUpperCase() + buildings[i].slice(1)}`
       buildingContainer.appendChild(building)
 
+      let buildingCount = document.createElement("div")
+      buildingCount.setAttribute("id", `${buildings[i]}Count`)
+      buildingCount.classList.add("buildingCount")
+      buildingCount.textContent = 0
+      buildingContainer.appendChild(buildingCount)
+
       let price = document.createElement("div")
       price.setAttribute("id", `${buildings[i]}Price`)
       price.classList.add("price")
