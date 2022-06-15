@@ -170,9 +170,15 @@ const bank = () => {
     cookieBank.textContent ++
   }
   let cookiesPerSecond = 1
-
-  return {currentBank, cookiesPerSecond, cookieClick}
+  let incrementBank = () => {
+    currentBank += cookiesPerSecond
+    cookieBank.textContent = parseInt(currentBank)
+  }
+  setInterval(incrementBank, 1000)
+  return {currentBank, cookieClick, cookiesPerSecond, incrementBank}
 }
+
+
 (function makeEventListeners() {
   const bigCookie = document.querySelector(".bigCookie")
   const cookieBank = document.querySelector(".currentBank")
