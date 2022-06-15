@@ -117,8 +117,13 @@ const htmlGenerator = (() => {
       buildingContainer.setAttribute("id", `${buildings[i]}Container`)
       buildingContainer.classList.add("buildingContainer")
       storePanelContainer.appendChild(buildingContainer)
-// adds initial cost for each building - may be subbed out for building objects (or it might be ok to generate everything here except the text content
-// which I could then modify with individual building objects)
+
+      let icon = document.createElement("div")
+      icon.setAttribute("id", `${buildings[i]}Icon`)
+      icon.classList.add("icon")
+      icon.textContent = "icon PH"
+      buildingContainer.appendChild(icon)
+
       let building = document.createElement("div")
       building.setAttribute("id", buildings[i])
       building.classList.add("building")
@@ -131,6 +136,8 @@ const htmlGenerator = (() => {
       buildingCount.textContent = 0
       buildingContainer.appendChild(buildingCount)
 
+// adds initial cost for each building - may be subbed out for building objects (or it might be ok to generate everything here except the text content
+// which I could then modify with individual building objects)
       let price = document.createElement("div")
       price.setAttribute("id", `${buildings[i]}Price`)
       price.classList.add("price")

@@ -114,14 +114,24 @@ body {
 
 .buildingContainer {
   height: 60px;
+  background-color: gray;
   border: solid white 1px;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  margin: 5px 0px;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 2fr 1fr;
   grid-template-areas:
-  "building count"
-  "price count";
-  place-items: center;
+  "icon building count"
+  "icon price count";
+}
+
+.icon {
+  grid-area: icon;
+  align-self: center;
+}
+
+.building, .price {
+  place-self: center start;
 }
 
 .building {
@@ -135,6 +145,7 @@ body {
 
 .buildingCount {
   grid-area: count;
+  place-self: center end;
 }
 
 /* end store panel styles */
