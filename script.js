@@ -159,35 +159,25 @@ const htmlGenerator = (() => {
   htmlGenerator.storePanel()
 })();
 
-// COOKIE CLICK LOGIC
-// adds event listener to big cookie, increments currentBank
-
-const bank = () => {
-  const cookieBank = document.querySelector(".currentBank")
-  let currentBank = 0
-  let cookieClick = () => {
-    currentBank ++
-    cookieBank.textContent ++
+// Bank and Building Objects
+// create bank object
+const bank = {
+  cookieBank: document.querySelector(".currentBank"),
+  currentBank: 0,
+  cookieClick: function() {
+    this.currentBank++
+    this.cookieBank.innerHTML = this.currentBank
+  },
+  cookiesPerSecond: 1,
+  incrementBank: function() {
+    this.currentBank += this.cookiesPerSecond
+    this.cookieBank.innerHTML = this.currentBank
   }
-  let cookiesPerSecond = 1
-  let incrementBank = () => {
-    currentBank += cookiesPerSecond
-    cookieBank.textContent = parseInt(currentBank)
-  }
-  setInterval(incrementBank, 1000)
-  return {currentBank, cookieClick, cookiesPerSecond, incrementBank}
-}
-
-
-(function makeEventListeners() {
-  const bigCookie = document.querySelector(".bigCookie")
-  const cookieBank = document.querySelector(".currentBank")
-  const bankObject = bank()
-  bigCookie.addEventListener("click", () => {
-    bankObject.cookieClick()
-  })
-})()
-
+};
+setInterval(() => bank.incrementBank(), 1000);
+// bank.incrementBank()
+console.log(bank);
+// FIGURE OUT HOW TO DEAL WITH *THIS* IN setInterval()
 
 // create bank object containing:
 // 1) currentBank - variable that reflects current cookie total
@@ -207,3 +197,17 @@ const bank = () => {
 
 // create stats object containing variables to track each stat
 // stats object should periodically check values - rather than having stats increment in realtime
+
+
+// COOKIE CLICK LOGIC
+// adds event listener to big cookie, increments currentBank
+
+
+
+(function makeEventListeners() {
+  const bigCookie = document.querySelector(".bigCookie")
+  const cookieBank = document.querySelector(".currentBank")
+  bigCookie.addEventListener("click", () => {
+    bank.cookieClick()
+  })
+})()
