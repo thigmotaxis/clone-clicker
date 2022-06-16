@@ -175,25 +175,17 @@ const bank = {
   }
 };
 setInterval(() => bank.incrementBank(), 1000);
-// bank.incrementBank()
-console.log(bank);
-// FIGURE OUT HOW TO DEAL WITH *THIS* IN setInterval()
-
-// create bank object containing:
-// 1) currentBank - variable that reflects current cookie total
-// 2) cookieClick - function that increments current bank when cookie is clicked
-// 3) cookiesPerSecond - variable that reflects current CPS
-// 4) updateCPS - function that updates current CPS
-// 5) incrementCookieBank - function that increases bank by CPS each second
-// 6) buy - function that decreases bank by the cost of a building or upgrade
-// 7) sellBuilding - function that increases bank by 25% of the cost of a building
 
 
 // create building factory, which generates each building object. each building object should contain:
 // 1) buildingCount - variable which tracks count
 // 2) updateCount - function that updates count (use conditional to increment if buy/decrement if sell - or make separate buy/sell functions)
-// 2) buildingPrice - variable which tracks price
-// 3 updatePrice - function that updates price on buy/sell
+// 3) buildingPrice - variable which tracks price
+// 4) updatePrice - function that updates price on buy/sell
+// 5) buy - function that decreases bank by the cost of a building
+// 6) sell - function that increases bank by 25% of the cost of a building
+// 7) updateCPS - function that upgates CPS on buy/sell, removes current interval and sets it again with the current CPS
+//  buildings should have an onclick listener that calls buy/sell and can be toggled by clicking the buy/sell divs in the store
 
 // create stats object containing variables to track each stat
 // stats object should periodically check values - rather than having stats increment in realtime
@@ -201,8 +193,6 @@ console.log(bank);
 
 // COOKIE CLICK LOGIC
 // adds event listener to big cookie, increments currentBank
-
-
 
 (function makeEventListeners() {
   const bigCookie = document.querySelector(".bigCookie")
