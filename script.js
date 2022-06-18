@@ -162,7 +162,7 @@ const htmlGenerator = (() => {
 // BANK AND BUILDING OBJECTS
 const bank = {
   cookieBank: document.querySelector(".currentBank"),
-  currentBank: 100,
+  currentBank: 0,
   cookieClick: function() {
     this.currentBank++
     this.cookieBank.innerHTML = this.currentBank
@@ -183,7 +183,7 @@ setInterval(() => bank.incrementBank(), 1000);
 // 4) updatePrice - function that updates price on buy/sell
 // 5) buy - function that decreases bank by the cost of a building
 // 6) sell - function that increases bank by 25% of the cost of a building
-// 7) updateCPS - function that upgates CPS on buy/sell, removes current interval and sets it again with the current CPS
+// 7) updateCPS - function that updates CPS on buy/sell, removes current interval and sets it again with the current CPS
 //  buildings should have an onclick listener that calls buy/sell and can be toggled by clicking the buy/sell divs in the store
 
 let buy = true;
@@ -191,42 +191,42 @@ let buy = true;
 
 const cursor = {
   buildingCount: 0,
-  updateCount: function() {
-    if(buy === true) {
-      this.buildingCount++
-    } else this.buildingCount--
-  },
   buildingPrice: 15,
-  updatePrice: function() {
-    if(buy === true) {
-      this.buildingPrice *= 1.1
-      console.log(cursor)
-    } else this.buildingPrice /= 1.1
-  },
+  buildingCPS: 1,
+
   buy: function () {
     if(bank.currentBank >= this.buildingPrice) {
       bank.currentBank -= this.buildingPrice
+      this.buildingCount++
+      this.buildingPrice *= 1.1
+      bank.cookiesPerSecond += this.buildingCPS
     }
   },
   sell: function () {
     if(this.buildingCount > 0) {
       this.buildingCount--
+      this.buildingPrice /= 1.1
       bank.currentBank += this.buildingPrice/4
     }
   },
-
+  updateDisplay: function() {
+    const count = document.querySelector("#cursorContainer .buildingCount")
+    count.textContent = this.buildingCount
+    const price = document.querySelector("#cursorContainer .price")
+    price.textContent = this.buildingPrice
+  },
 }
 
-testt = document.querySelector("#cursorContainer")
-testt.addEventListener("click", () => {
-  cursor.sell()
-  cursor.updatePrice()
-  console.log(cursor.buildingPrice)
+cursorHandler = document.querySelector("#cursorContainer")
+cursorHandler.addEventListener("click", () => {
+  if (buy === true) cursor.buy();
+  else cursor.sell();
+  cursor.updateDisplay();
+  // (function (){
+  //   const children = document.querySelectorAll("#cursorContainer div")
+  //   children[2].textContent =
+  // })();
 });
-
-console.log(cursor.buildingPrice);
-cursor.updatePrice()
-console.log(cursor.buildingPrice);
 
 // create stats object containing variables to track each stat
 // stats object should periodically check values - rather than having stats increment in realtime
