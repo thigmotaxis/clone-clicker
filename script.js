@@ -111,6 +111,7 @@ const htmlGenerator = (() => {
     storePanelContainer.appendChild(sell)
 
     const buildings = ["cursor", "grandma", "farm", "mine", "factory"]
+    const initialPrices = [15, 100, 1100, 12000, 130000]
 
     for(let i = 0; i < buildings.length; i++) {
       let buildingContainer = document.createElement("div")
@@ -141,19 +142,16 @@ const htmlGenerator = (() => {
       let price = document.createElement("div")
       price.setAttribute("id", `${buildings[i]}Price`)
       price.classList.add("price")
-      price.textContent = `${(i + 1)**4*15}`
+      price.textContent = initialPrices[i]
       buildingContainer.appendChild(price)
     }
-
   }
-
   return {cookiePanel, statsPanel, storePanel}
 })();
 
 // CALLS PANEL CREATION METHODS TO CREATE HTML CONTENT
 
 (function generateContent() {
-
   htmlGenerator.cookiePanel()
   htmlGenerator.statsPanel()
   htmlGenerator.storePanel()
@@ -170,23 +168,14 @@ const bank = {
   cookiesPerSecond: 0,
   incrementBank: function() {
     this.currentBank += this.cookiesPerSecond
-    this.cookieBank.innerHTML = this.currentBank
+    this.cookieBank.innerHTML = Math.round(this.currentBank)
   }
 };
 setInterval(() => bank.incrementBank(), 1000);
 
 
-// create building factory, which generates each building object. each building object should contain:
-// 1) buildingCount - variable which tracks count
-// 2) updateCount - function that updates count (use conditional to increment if buy/decrement if sell - or make separate buy/sell functions)
-// 3) buildingPrice - variable which tracks price
-// 4) updatePrice - function that updates price on buy/sell
-// 5) buy - function that decreases bank by the cost of a building
-// 6) sell - function that increases bank by 25% of the cost of a building
-// 7) updateCPS - function that updates CPS on buy/sell, removes current interval and sets it again with the current CPS
-//  buildings should have an onclick listener that calls buy/sell and can be toggled by clicking the buy/sell divs in the store
-
-// BUILDING FACTORY
+let buy = true;
+// BUILDING FACTORY AND BUILDING INITIALIZATIONS
 
 const buildingFactory = (name, price, cookiesPerSecond) => {
   let buildingCount = 0;
@@ -199,7 +188,6 @@ const buildingFactory = (name, price, cookiesPerSecond) => {
         buildingPrice *= 1.1
         bank.cookiesPerSecond += buildingCPS
       }
-      else console.log(typeof bank.currentBank)
     };
   const sell = () => {
       if(buildingCount > 0) {
@@ -216,19 +204,32 @@ const buildingFactory = (name, price, cookiesPerSecond) => {
     };
   return {buy, sell, updateDisplay};
 };
-// END BUILDING FACTORY
-
-let buy = true;
-// this will toggle to false onclick of sellbutton and back to true onclick of buybutton
 
 const cursor = buildingFactory("cursor", 15, 0.1)
 const grandma = buildingFactory("grandma", 100, 1);
-const farm = buildingFactory("farm", 400, 4);
-const mine = buildingFactory("mine", 3000, 10);
-const factory = buildingFactory("factory", 12000, 40);
+const farm = buildingFactory("farm", 1100, 4);
+const mine = buildingFactory("mine", 12000, 10);
+const factory = buildingFactory("factory", 130000, 40);
+
+// END BUILDING FACTORY/INITIALIZATIONS
+
+// this will toggle to false onclick of sellbutton and back to true onclick of buybutton
+
 
 // CREATE IIFE THAT SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
-// *** 
+// ***
+(function makeBuildingListeners() {
+  const buildingNames = ["cursor", "grandma", "farm", "mine", "factory"];
+  const buildingObjects = [cursor, grandma, farm, mine, factory];
+  const buildings = document.querySelectorAll(".buildingContainer")
+  buildings.forEach((building, index) => {
+    building.addEventListener("click", () => {
+      if (buy === true) buildingObjects[index].buy()
+      else buildingObjects[index].sell()
+      buildingObjects[index].updateDisplay()
+    })
+  })
+})();
 
 // create stats object containing variables to track each stat
 // stats object should periodically check values - rather than having stats increment in realtime
@@ -237,7 +238,7 @@ const factory = buildingFactory("factory", 12000, 40);
 // COOKIE CLICK LOGIC
 // adds event listener to big cookie, increments currentBank
 
-(function makeEventListeners() {
+(function makeCookieListener() {
   const bigCookie = document.querySelector(".bigCookie")
   const cookieBank = document.querySelector(".currentBank")
   bigCookie.addEventListener("click", () => {
