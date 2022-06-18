@@ -174,6 +174,7 @@ const bank = {
 setInterval(() => bank.incrementBank(), 1000);
 
 
+// this will toggle to false onclick of sellbutton and back to true onclick of buybutton
 let buy = true;
 // BUILDING FACTORY AND BUILDING INITIALIZATIONS
 
@@ -200,7 +201,7 @@ const buildingFactory = (name, price, cookiesPerSecond) => {
       const count = document.querySelector(`#${name}Container .buildingCount`)
       count.textContent = buildingCount
       const price = document.querySelector(`#${name}Container .price`)
-      price.textContent = buildingPrice
+      price.textContent = Math.round(buildingPrice)
     };
   return {buy, sell, updateDisplay};
 };
@@ -213,7 +214,6 @@ const factory = buildingFactory("factory", 130000, 40);
 
 // END BUILDING FACTORY/INITIALIZATIONS
 
-// this will toggle to false onclick of sellbutton and back to true onclick of buybutton
 
 
 // CREATE IIFE THAT SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
