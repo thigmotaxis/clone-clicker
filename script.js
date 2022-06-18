@@ -162,12 +162,12 @@ const htmlGenerator = (() => {
 // BANK AND BUILDING OBJECTS
 const bank = {
   cookieBank: document.querySelector(".currentBank"),
-  currentBank: 0,
+  currentBank: 500,
   cookieClick: function() {
     this.currentBank++
     this.cookieBank.innerHTML = this.currentBank
   },
-  cookiesPerSecond: 1,
+  cookiesPerSecond: 0,
   incrementBank: function() {
     this.currentBank += this.cookiesPerSecond
     this.cookieBank.innerHTML = this.currentBank
@@ -186,47 +186,49 @@ setInterval(() => bank.incrementBank(), 1000);
 // 7) updateCPS - function that updates CPS on buy/sell, removes current interval and sets it again with the current CPS
 //  buildings should have an onclick listener that calls buy/sell and can be toggled by clicking the buy/sell divs in the store
 
+// BUILDING FACTORY
+
+const buildingFactory = (name, price, cookiesPerSecond) => {
+  let buildingCount = 0;
+  let buildingPrice = price;
+  let buildingCPS = cookiesPerSecond;
+  const buy = () => {
+      if(bank.currentBank >= buildingPrice) {
+        bank.currentBank -= buildingPrice
+        buildingCount++
+        buildingPrice *= 1.1
+        bank.cookiesPerSecond += buildingCPS
+      }
+      else console.log(typeof bank.currentBank)
+    };
+  const sell = () => {
+      if(buildingCount > 0) {
+        buildingCount--
+        buildingPrice /= 1.1
+        bank.currentBank += buildingPrice/4
+      }
+    };
+  const updateDisplay = () => {
+      const count = document.querySelector(`#${name}Container .buildingCount`)
+      count.textContent = buildingCount
+      const price = document.querySelector(`#${name}Container .price`)
+      price.textContent = buildingPrice
+    };
+  return {buy, sell, updateDisplay};
+};
+// END BUILDING FACTORY
+
 let buy = true;
 // this will toggle to false onclick of sellbutton and back to true onclick of buybutton
 
-const cursor = {
-  buildingCount: 0,
-  buildingPrice: 15,
-  buildingCPS: 1,
+const cursor = buildingFactory("cursor", 15, 0.1)
+const grandma = buildingFactory("grandma", 100, 1);
+const farm = buildingFactory("farm", 400, 4);
+const mine = buildingFactory("mine", 3000, 10);
+const factory = buildingFactory("factory", 12000, 40);
 
-  buy: function () {
-    if(bank.currentBank >= this.buildingPrice) {
-      bank.currentBank -= this.buildingPrice
-      this.buildingCount++
-      this.buildingPrice *= 1.1
-      bank.cookiesPerSecond += this.buildingCPS
-    }
-  },
-  sell: function () {
-    if(this.buildingCount > 0) {
-      this.buildingCount--
-      this.buildingPrice /= 1.1
-      bank.currentBank += this.buildingPrice/4
-    }
-  },
-  updateDisplay: function() {
-    const count = document.querySelector("#cursorContainer .buildingCount")
-    count.textContent = this.buildingCount
-    const price = document.querySelector("#cursorContainer .price")
-    price.textContent = this.buildingPrice
-  },
-}
-
-cursorHandler = document.querySelector("#cursorContainer")
-cursorHandler.addEventListener("click", () => {
-  if (buy === true) cursor.buy();
-  else cursor.sell();
-  cursor.updateDisplay();
-  // (function (){
-  //   const children = document.querySelectorAll("#cursorContainer div")
-  //   children[2].textContent =
-  // })();
-});
+// CREATE IIFE THAT SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
+// *** 
 
 // create stats object containing variables to track each stat
 // stats object should periodically check values - rather than having stats increment in realtime
