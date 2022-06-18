@@ -3,8 +3,6 @@ let cookieBank = 0
 const htmlGenerator = (() => {
   const body = document.querySelector("body")
 
-
-
 // GENERATE COOKIE PANEL
 
   const cookiePanel = () => {
@@ -56,9 +54,14 @@ const htmlGenerator = (() => {
       let stat = document.createElement("div")
       stat.classList.add("stat")
       stat.textContent = `${statsArray[i]}: `
-      // line 41 sets appropriate camelCase ids on stat divs
+      // line below sets appropriate camelCase ids on stat divs
       stat.classList.add(statsArray[i].slice(0, 1).toLowerCase() + statsArray[i].slice(1).replace(/\s+/g, ""))
       statsPanelContainer.appendChild(stat)
+      let statValue = document.createElement("div")
+      statValue.classList.add("statValue")
+      // line below sets default value of each stat to 0 (with two exceptions)
+      statValue.textContent = (statsArray[i] === "Run Started") ? "date" : (statsArray[i] === "Cookies Per Click") ? 1 : 0
+      statsPanelContainer.appendChild(statValue)
     }
 
     const upgrades = document.createElement("div")
@@ -177,7 +180,6 @@ const bank = {
 };
 setInterval(() => bank.incrementBank(), 1000);
 
-
 // this will toggle to false onclick of sellbutton and back to true onclick of buybutton
 let buy = true;
 // // set event listener on buy and sell divs, with onclick, toggle buy to true/false
@@ -219,7 +221,7 @@ const buildingFactory = (name, price, cookiesPerSecond) => {
       const price = document.querySelector(`#${name}Container .price`)
       price.textContent = Math.round(buildingPrice)
     };
-  return {buy, sell, updateDisplay};
+  return {buildingCount, buy, sell, updateDisplay};
 };
 
 const cursor = buildingFactory("cursor", 15, 0.1)
@@ -228,14 +230,16 @@ const farm = buildingFactory("farm", 1100, 4);
 const mine = buildingFactory("mine", 12000, 10);
 const factory = buildingFactory("factory", 130000, 40);
 
+const buildingObjects = [cursor, grandma, farm, mine, factory];
 // END BUILDING FACTORY/INITIALIZATIONS
+
+
 
 
 
 // SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
 (function makeBuildingListeners() {
   const buildingNames = ["cursor", "grandma", "farm", "mine", "factory"];
-  const buildingObjects = [cursor, grandma, farm, mine, factory];
   const buildings = document.querySelectorAll(".buildingContainer")
   buildings.forEach((building, index) => {
     building.addEventListener("click", () => {
