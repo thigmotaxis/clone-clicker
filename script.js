@@ -103,10 +103,14 @@ const htmlGenerator = (() => {
     }
 
     const buy = document.createElement("div")
+    buy.setAttribute("id", "buyToggle")
+    buy.classList.add("transactionToggle")
     buy.textContent = "Buy"
     storePanelContainer.appendChild(buy)
 
     const sell = document.createElement("div")
+    sell.setAttribute("id", "sellToggle")
+    sell.classList.add("transactionToggle")
     sell.textContent = "Sell"
     storePanelContainer.appendChild(sell)
 
@@ -176,6 +180,18 @@ setInterval(() => bank.incrementBank(), 1000);
 
 // this will toggle to false onclick of sellbutton and back to true onclick of buybutton
 let buy = true;
+// // set event listener on buy and sell divs, with onclick, toggle buy to true/false
+(function makeTransactionToggleListeners() {
+  const buyToggle = document.querySelector("#buyToggle")
+  buyToggle.addEventListener("click", () => {
+    buy = true;
+  })
+  const sellToggle = document.querySelector("#sellToggle")
+  sellToggle.addEventListener("click", () => {
+    buy = false;
+  })
+})()
+
 // BUILDING FACTORY AND BUILDING INITIALIZATIONS
 
 const buildingFactory = (name, price, cookiesPerSecond) => {
@@ -216,8 +232,7 @@ const factory = buildingFactory("factory", 130000, 40);
 
 
 
-// CREATE IIFE THAT SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
-// ***
+// SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
 (function makeBuildingListeners() {
   const buildingNames = ["cursor", "grandma", "farm", "mine", "factory"];
   const buildingObjects = [cursor, grandma, farm, mine, factory];
