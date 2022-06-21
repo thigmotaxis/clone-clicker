@@ -58,6 +58,7 @@ const htmlGenerator = (() => {
       stat.classList.add(statsArray[i].slice(0, 1).toLowerCase() + statsArray[i].slice(1).replace(/\s+/g, ""))
       statsPanelContainer.appendChild(stat)
       let statValue = document.createElement("div")
+      statValue.setAttribute("id", `${statsArray[i].slice(0, 1).toLowerCase() + statsArray[i].slice(1).replace(/\s+/g, "")}Value`)
       statValue.classList.add("statValue")
       // line below sets default value of each stat to 0 (with two exceptions)
       statValue.textContent = (statsArray[i] === "Run Started") ? "date" : (statsArray[i] === "Cookies Per Click") ? 1 : 0
@@ -170,7 +171,7 @@ const bank = {
   currentBank: 500,
   cookieClick: function() {
     this.currentBank++
-    this.cookieBank.innerHTML = this.currentBank
+    this.cookieBank.innerHTML = Math.round(this.currentBank)
   },
   cookiesPerSecond: 0,
   incrementBank: function() {
@@ -234,7 +235,42 @@ const buildingObjects = [cursor, grandma, farm, mine, factory];
 // END BUILDING FACTORY/INITIALIZATIONS
 
 
+// STATS OBJECT TO STORE VARIOUS GAME DATA
+// stats object should periodically check values - rather than having stats increment in realtime
+const statsObject = {
+  currentCookies: bank.currentBank,
+  cookiesBaked: "come back to this",
+  runStarted: "elapsed time",
+  buildingsOwned: function () {
+    let total = 0;
+    for (obj in buildingObjects) {
+      total += buildingObjects[obj].buildingCount
+    }
+    return total
+  },
+  cookiesPerSecond: bank.cookiesPerSecond,
+};
 
+function updateStats() {
+  let currentCookiesElement = document.querySelector("#currentCookiesValue")
+  currentCookiesElement.textContent = Math.round(bank.currentBank)
+  let cookiesBakedElement = document.querySelector("#cookiesBakedValue")
+  cookiesBakedElement.textContent = "Placeholder"
+  let runStartedElement = document.querySelector("#runStartedValue")
+  runStartedElement.textContent = "Placeholder"
+  let buildingsOwnedElement = document.querySelector("#buildingsOwnedValue")
+  buildingsOwnedElement.textContent = statsObject.buildingsOwned()
+  let cookiesPerSecondElement = document.querySelector("#cookiesPerSecondValue")
+  cookiesPerSecondElement.textContent = statsObject.cookiesPerSecond
+  let cookiesPerClickElement = document.querySelector("#cookiesPerClickValue")
+  cookiesPerClickElement.textContent = statsObject.cookiesPerClick
+  let cookieClicksElement = document.querySelector("#cookieClicksValue")
+  cookieClicksElement.textContent = statsObject.cookieClicks
+  let handmadeCookiesElement = document.querySelector("#handmadeCookiesValue")
+  handmadeCookiesElement.textContent = statsObject.handmadeCookies
+};
+setInterval(() => updateStats(), 10000);
+// END STATS OBJECT
 
 
 // SETS LISTENERS ON EACH BUILDINGCONTAINER TO RUN CALL BUY/SELL/UPDATEDISPLAY
@@ -249,9 +285,6 @@ const buildingObjects = [cursor, grandma, farm, mine, factory];
     })
   })
 })();
-
-// create stats object containing variables to track each stat
-// stats object should periodically check values - rather than having stats increment in realtime
 
 
 // COOKIE CLICK LOGIC
